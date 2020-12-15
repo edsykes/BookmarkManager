@@ -3,6 +3,7 @@
 #include <QContextMenuEvent>
 #include <QFileSystemModel>
 #include <QMessageBox>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,6 +32,19 @@ void MainWindow::initTreeView(){
 #ifndef QT_NO_CONTEXTMENU
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 {
+    QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
+    QFileSystemModel* model = (QFileSystemModel*)ui->treeView->model();
+    int row = -1;
+    foreach (QModelIndex index, list)
+    {
+        if (index.row()!=row && index.column()==0)
+        {
+            QFileInfo fileInfo = model->fileInfo(index);
+            qDebug() << fileInfo.fileName() << '\n';
+            qDebug() << fileInfo.filePath() << '\n';
+            row = index.row();
+        }
+    }
     QMenu menu(this);
     menu.addAction(popupAction);
     menu.exec(event->globalPos());
@@ -46,10 +60,20 @@ void MainWindow::onPopupMenuClicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QFileSystemModel *model = new QFileSystemModel;
-    model->setRootPath("c:\\users");
-    ui->treeView->setModel(model);
-    ui->treeView->setRootIndex(model->setRootPath("c:\\users"));
-    ui->bookmarkDirectory->setText(model->rootPath());
-}
+    QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
+    QFileSystemModel* model = (QFileSystemModel*)ui->treeView->model();
+    int row = -1;
+    QModelIndex selectedIndex;
+    foreach (QModelIndex index, list)
+    {
+        if (index.row()!=row && index.column()==0)
+        {
+            selectedIndex = index;
+            row = index.row();
+        }
+    }
 
+    QFileInfo fileInfo = model->fileInfo(selectedIndex);
+    qDebug() << fileInfo.fileName() << '\n';
+    qDebug() << fileInfo.filePath() << '\n';
+}
