@@ -25,6 +25,8 @@ protected:
 private slots:
     void on_pushButton_clicked();
     void onPopupMenuClicked();
+    void on_pushStartChrome_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMenu *contextMenu;

@@ -4,6 +4,7 @@
 #include <QFileSystemModel>
 #include <QMessageBox>
 #include <QDebug>
+#include <QProcess>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -76,4 +77,11 @@ void MainWindow::on_pushButton_clicked()
     QFileInfo fileInfo = model->fileInfo(selectedIndex);
     qDebug() << fileInfo.fileName() << '\n';
     qDebug() << fileInfo.filePath() << '\n';
+}
+
+void MainWindow::on_pushStartChrome_clicked()
+{
+    QString program("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
+    QStringList arguments;
+    QProcess::startDetached(program, arguments);
 }
