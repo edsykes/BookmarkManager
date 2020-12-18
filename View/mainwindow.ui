@@ -60,6 +60,32 @@
      <string>Chrome</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="startEdge">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>340</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edge</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="dockChromeRight">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>370</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dock Right</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

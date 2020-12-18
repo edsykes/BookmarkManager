@@ -27,6 +27,10 @@ private slots:
     void onPopupMenuClicked();
     void on_pushStartChrome_clicked();
 
+    void on_startEdge_clicked();
+
+    void on_dockChromeRight_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMenu *contextMenu;
