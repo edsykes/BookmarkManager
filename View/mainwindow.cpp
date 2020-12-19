@@ -6,6 +6,10 @@
 #include <QDebug>
 #include <QProcess>
 #include <Windows.h>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <utility>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,9 +28,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::initTreeView(){
     QFileSystemModel *model = new QFileSystemModel;
-    model->setRootPath("c:\\users");
+    model->setRootPath("C:/Users/edsyk/OneDrive/Bookmarks");
     ui->treeView->setModel(model);
-    ui->treeView->setRootIndex(model->setRootPath("c:\\users"));
+    ui->treeView->setRootIndex(model->setRootPath("C:/Users/edsyk/OneDrive/Bookmarks"));
     ui->bookmarkDirectory->setText(model->rootPath());
     ui->treeView->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
@@ -82,12 +86,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushStartChrome_clicked()
 {
-    QString program("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
-    QStringList arguments;
-    arguments << "www.bing.com";
-    arguments << "-window-size=\"400,300\"";
-    arguments << "-window-position=\"0,0\"";
-    QProcess::startDetached(program, arguments);
+    launchChromeUrl("www.bing.com");
 }
 
 void MainWindow::on_startEdge_clicked()
@@ -147,3 +146,55 @@ void MainWindow::on_dockChromeRight_clicked()
     qDebug() << "SetWindowPos result" << result;
 }
 
+
+void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
+{
+    qDebug() << index.column();
+    QFileSystemModel* model = (QFileSystemModel*)ui->treeView->model();
+    QString clickedFile = model->filePath(index);
+    qDebug() << clickedFile;
+    QString bookmarkJson = readJsonFile(clickedFile);
+    if(bookmarkJson.size() == 0) return;
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(bookmarkJson.toUtf8(), &parseError);
+    if(parseError.error != QJsonParseError::NoError)
+    {
+        qDebug() << "Error while parsing Json";
+        return;
+    }
+
+    qDebug() << "url:" << jsonDocument["url"];
+    qDebug() << "version:" << jsonDocument["version"];
+    qDebug() << "browser:" << jsonDocument["browser"];
+
+    if(jsonDocument["browser"] == "chrome")
+    {
+        qDebug() << "Launching chrome";
+        launchChromeUrl(jsonDocument["url"].toString());
+    }
+}
+
+void MainWindow::launchChromeUrl(QString url)
+{
+    QString program("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
+    QStringList arguments;
+    arguments << url;
+    arguments << "-window-size=\"400,300\"";
+    arguments << "-window-position=\"0,0\"";
+    QProcess::startDetached(program, arguments);
+}
+
+QString MainWindow::readJsonFile(QString path)
+{
+    QFile jsonFile(path);
+    if(!jsonFile.open(QFile::ReadOnly| QFile::Text))
+    {
+        qDebug() << "File does not exist while trying to read " << path;
+        return "";
+    }
+
+    QString bookmark = jsonFile.readAll();
+
+    return bookmark;
+}

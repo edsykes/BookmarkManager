@@ -26,12 +26,13 @@ private slots:
     void on_pushButton_clicked();
     void onPopupMenuClicked();
     void on_pushStartChrome_clicked();
-
     void on_startEdge_clicked();
-
     void on_dockChromeRight_clicked();
+    void on_treeView_doubleClicked(const QModelIndex &index);
 
 private:
+    void launchChromeUrl(QString url);
+    QString readJsonFile(QString path);
     Ui::MainWindow *ui;
     QMenu *contextMenu;
     QAction *popupAction;
