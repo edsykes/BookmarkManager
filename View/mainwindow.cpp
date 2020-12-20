@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "newbookmark.h"
 #include <QContextMenuEvent>
 #include <QFileSystemModel>
 #include <QMessageBox>
@@ -19,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     popupAction = new QAction("pop up");
     connect(popupAction, &QAction::triggered, this, &MainWindow::onPopupMenuClicked);
+
+    //addBookmark = new addBookmark(this);
 }
 
 MainWindow::~MainWindow()
@@ -197,4 +200,14 @@ QString MainWindow::readJsonFile(QString path)
     QString bookmark = jsonFile.readAll();
 
     return bookmark;
+}
+
+void MainWindow::on_buttonAddBookmark_clicked()
+{
+    NewBookmark nb(this);
+    nb.show();
+    int result = nb.exec();
+    if(result == QDialog::Accepted){
+        qDebug() << "User added a bookmark: brower =" << nb.getBrowser();
+    }
 }

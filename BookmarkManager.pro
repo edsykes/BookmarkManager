@@ -11,14 +11,17 @@ CONFIG += c++11
 QMAKE_CXXFLAGS = -std=c++11
 
 SOURCES += \
+    View/newbookmark.cpp \
     main.cpp \
     View/mainwindow.cpp
 
 HEADERS += \
-    View/mainwindow.h
+    View/mainwindow.h \
+    View/newbookmark.h
 
 FORMS += \
-    View/mainwindow.ui
+    View/mainwindow.ui \
+    View/newbookmark.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
