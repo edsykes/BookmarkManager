@@ -208,6 +208,11 @@ void MainWindow::on_buttonAddBookmark_clicked()
     nb.show();
     int result = nb.exec();
     if(result == QDialog::Accepted){
-        qDebug() << "User added a bookmark: brower =" << nb.getBrowser();
+        qDebug() << "User added a bookmark: name" << nb.getName()
+                 << "; browser " << nb.getBrowser()
+                 << "; url " << nb.getUrl();
     }
+
+
+
 }
