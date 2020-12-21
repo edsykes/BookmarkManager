@@ -211,20 +211,20 @@ void MainWindow::on_buttonAddBookmark_clicked()
         qDebug() << "User added a bookmark: name" << nb.getName()
                  << "; browser " << nb.getBrowser()
                  << "; url " << nb.getUrl();
-    }
 
-    QJsonObject jsonObject;
-    jsonObject.insert("version", "0.1");
-    jsonObject.insert("url", nb.getUrl());
-    jsonObject.insert("browser", nb.getBrowser());
-    QJsonDocument writeDocument(jsonObject);
-    QDir bookmarksDir("C:/Users/edsyk/OneDrive/Bookmarks/");
-    QString outputFilename(nb.getName());
-    outputFilename += ".json";
-    QString outputFilePath = bookmarksDir.filePath(outputFilename);
-    qDebug() << "path to save json to is" <<  outputFilePath;
-    QFile outputFile(outputFilePath);
-    outputFile.open(QIODevice::WriteOnly);
-    outputFile.write(writeDocument.toJson());
-    outputFile.close();
+        QJsonObject jsonObject;
+        jsonObject.insert("version", "0.1");
+        jsonObject.insert("url", nb.getUrl());
+        jsonObject.insert("browser", nb.getBrowser());
+        QJsonDocument writeDocument(jsonObject);
+        QDir bookmarksDir("C:/Users/edsyk/OneDrive/Bookmarks/");
+        QString outputFilename(nb.getName());
+        outputFilename += ".json";
+        QString outputFilePath = bookmarksDir.filePath(outputFilename);
+        qDebug() << "path to save json to is" <<  outputFilePath;
+        QFile outputFile(outputFilePath);
+        outputFile.open(QIODevice::WriteOnly);
+        outputFile.write(writeDocument.toJson());
+        outputFile.close();
+    }
 }

@@ -99,6 +99,11 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>editBoxName</tabstop>
+  <tabstop>editBrowser</tabstop>
+  <tabstop>editBoxUrl</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
