@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     popupAction = new QAction("pop up");
     connect(popupAction, &QAction::triggered, this, &MainWindow::onPopupMenuClicked);
 
-    //addBookmark = new addBookmark(this);
+    bookmarkDirectory = new QDir("C:/Users/edsyk/OneDrive/Bookmarks");
 }
 
 MainWindow::~MainWindow()
@@ -31,9 +31,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::initTreeView(){
     QFileSystemModel *model = new QFileSystemModel;
-    model->setRootPath("C:/Users/edsyk/OneDrive/Bookmarks");
+    model->setRootPath(bookmarkDirectory->path());
     ui->treeView->setModel(model);
-    ui->treeView->setRootIndex(model->setRootPath("C:/Users/edsyk/OneDrive/Bookmarks"));
+    ui->treeView->setRootIndex(model->setRootPath(bookmarkDirectory->path()));
     ui->bookmarkDirectory->setText(model->rootPath());
     ui->treeView->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
@@ -217,10 +217,9 @@ void MainWindow::on_buttonAddBookmark_clicked()
         jsonObject.insert("url", nb.getUrl());
         jsonObject.insert("browser", nb.getBrowser());
         QJsonDocument writeDocument(jsonObject);
-        QDir bookmarksDir("C:/Users/edsyk/OneDrive/Bookmarks/");
         QString outputFilename(nb.getName());
         outputFilename += ".json";
-        QString outputFilePath = bookmarksDir.filePath(outputFilename);
+        QString outputFilePath = bookmarkDirectory->filePath(outputFilename);
         qDebug() << "path to save json to is" <<  outputFilePath;
         QFile outputFile(outputFilePath);
         outputFile.open(QIODevice::WriteOnly);

@@ -4,6 +4,8 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
+
+class QDir;
 namespace Ui { class MainWindow;}
 QT_END_NAMESPACE
 
@@ -38,6 +40,7 @@ private:
     Ui::MainWindow *ui;
     QMenu *contextMenu;
     QAction *popupAction;
+    QDir* bookmarkDirectory;
 
 };
 #endif // MAINWINDOW_H
