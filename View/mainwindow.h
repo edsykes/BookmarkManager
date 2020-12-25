@@ -34,6 +34,10 @@ private slots:
 
     void on_buttonAddBookmark_clicked();
 
+    void DockLeft();
+    
+    void on_pushDockLeft_clicked();
+
 private:
     void launchChromeUrl(QString url);
     QString readJsonFile(QString path);

@@ -11,6 +11,15 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <utility>
+#include <QDesktopWidget>
+
+void MainWindow::DockLeft()
+{
+    QSize currentSize = QDesktopWidget().availableGeometry(this).size();
+    currentSize.setWidth(250);
+    resize(currentSize);
+    move(0, 0);
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(popupAction, &QAction::triggered, this, &MainWindow::onPopupMenuClicked);
 
     bookmarkDirectory = new QDir("C:/Users/edsyk/OneDrive/Bookmarks");
+    DockLeft();
 }
 
 MainWindow::~MainWindow()
@@ -207,7 +217,8 @@ void MainWindow::on_buttonAddBookmark_clicked()
     NewBookmark nb(this);
     nb.show();
     int result = nb.exec();
-    if(result == QDialog::Accepted){
+    if(result == QDialog::Accepted)
+    {
         qDebug() << "User added a bookmark: name" << nb.getName()
                  << "; browser " << nb.getBrowser()
                  << "; url " << nb.getUrl();
@@ -226,4 +237,9 @@ void MainWindow::on_buttonAddBookmark_clicked()
         outputFile.write(writeDocument.toJson());
         outputFile.close();
     }
+}
+
+void MainWindow::on_pushDockLeft_clicked()
+{
+    DockLeft();
 }
