@@ -12,13 +12,31 @@
 #include <QJsonDocument>
 #include <utility>
 #include <QDesktopWidget>
+#include <QScreen>
 
 void MainWindow::DockLeft()
 {
-    QSize currentSize = QDesktopWidget().availableGeometry(this).size();
+    //  1.	Get the screen that the window is currently placed on
+    int currentWidth = this->width();
+    int topOfWindow = 0;
+    int middleWidth = currentWidth / 2;
+    QPoint middleOfTopOfWindow = {middleWidth, topOfWindow};
+    QPoint globalPosition = mapToGlobal(middleOfTopOfWindow);
+    QScreen* currentScreen = QGuiApplication::screenAt(globalPosition);
+
+    QSize currentSize = size();
     currentSize.setWidth(250);
     resize(currentSize);
-    move(0, 0);
+
+    // 2. Get the geometry of that screen
+    QRect currentScreenGeometry = currentScreen->availableGeometry();
+    qDebug() << "Docking left to the current screen: " << currentScreenGeometry;
+    qDebug() << "Move: left = " << currentScreenGeometry.left()
+             << "top = " << currentScreenGeometry.top();
+
+    // 3. Call a function to move the window to the top left most co-ordinate
+    // of the second screen
+    move(currentScreenGeometry.left(), currentScreenGeometry.top());
 }
 
 MainWindow::MainWindow(QWidget *parent)
