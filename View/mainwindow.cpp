@@ -64,6 +64,8 @@ void MainWindow::initTreeView(){
     ui->treeView->setRootIndex(model->setRootPath(bookmarkDirectory->path()));
     ui->bookmarkDirectory->setText(model->rootPath());
     ui->treeView->setContextMenuPolicy(Qt::ActionsContextMenu);
+    for (int i = 1; i < model->columnCount(); ++i)
+        ui->treeView->hideColumn(i);
 }
 
 #ifndef QT_NO_CONTEXTMENU
