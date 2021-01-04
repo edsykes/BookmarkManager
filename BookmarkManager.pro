@@ -12,16 +12,19 @@ QMAKE_CXXFLAGS = -std=c++11
 
 SOURCES += \
     View/newbookmark.cpp \
+    View/newfolder.cpp \
     main.cpp \
     View/mainwindow.cpp
 
 HEADERS += \
     View/mainwindow.h \
-    View/newbookmark.h
+    View/newbookmark.h \
+    View/newfolder.h
 
 FORMS += \
     View/mainwindow.ui \
-    View/newbookmark.ui
+    View/newbookmark.ui \
+    View/newfolder.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -38,6 +38,8 @@ private slots:
     
     void on_pushDockLeft_clicked();
 
+    void on_pushCreateFolder_clicked();
+
 private:
     void launchChromeUrl(QString url);
     QString readJsonFile(QString path);

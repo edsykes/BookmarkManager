@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "newbookmark.h"
+#include "newfolder.h"
 #include <QContextMenuEvent>
 #include <QFileSystemModel>
 #include <QMessageBox>
@@ -262,4 +263,11 @@ void MainWindow::on_buttonAddBookmark_clicked()
 void MainWindow::on_pushDockLeft_clicked()
 {
     DockLeft();
+}
+
+void MainWindow::on_pushCreateFolder_clicked()
+{
+    NewFolder nf(this);
+    nf.show();
+    nf.exec();
 }
