@@ -98,7 +98,7 @@ void MainWindow::onPopupMenuClicked()
     msgBox.exec();
 }
 
-void MainWindow::on_pushButton_clicked()
+QFileInfo MainWindow::GetSelectedBookmark()
 {
     QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
     QFileSystemModel* model = (QFileSystemModel*)ui->treeView->model();
@@ -114,6 +114,13 @@ void MainWindow::on_pushButton_clicked()
     }
 
     QFileInfo fileInfo = model->fileInfo(selectedIndex);
+
+    return fileInfo;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QFileInfo fileInfo = GetSelectedBookmark();
     qDebug() << fileInfo.fileName() << '\n';
     qDebug() << fileInfo.filePath() << '\n';
 }
@@ -269,5 +276,13 @@ void MainWindow::on_pushCreateFolder_clicked()
 {
     NewFolder nf(this);
     nf.show();
-    nf.exec();
+    int result = nf.exec();
+    if(result == QDialog::Accepted)
+    {
+        qDebug() << "User added a folder:" << nf.getFolderName();
+        QFileInfo bookmark = GetSelectedBookmark();
+        qDebug() << "Folder will be added to " << bookmark.absoluteDir();
+        QDir bookmarkRoot = bookmark.absoluteDir();
+        bookmarkRoot.mkdir(nf.getFolderName());
+    }
 }

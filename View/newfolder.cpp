@@ -12,3 +12,13 @@ NewFolder::~NewFolder()
 {
     delete ui;
 }
+
+QString NewFolder::getFolderName()
+{
+    return folderName;
+}
+
+void NewFolder::on_lineEdit_editingFinished()
+{
+    folderName =  ui->lineEdit->text();
+}

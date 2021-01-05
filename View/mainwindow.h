@@ -6,6 +6,7 @@
 QT_BEGIN_NAMESPACE
 
 class QDir;
+class QFileInfo;
 namespace Ui { class MainWindow;}
 QT_END_NAMESPACE
 
@@ -19,6 +20,8 @@ public:
 
     void initTreeView();
 
+    QFileInfo GetSelectedBookmark();
+    
 protected:
 #ifndef QT_NO_CONTEXTMENU
     void contextMenuEvent(QContextMenuEvent *event) override;
