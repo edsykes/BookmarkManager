@@ -282,7 +282,10 @@ void MainWindow::on_pushCreateFolder_clicked()
         qDebug() << "User added a folder:" << nf.getFolderName();
         QFileInfo bookmark = GetSelectedBookmark();
         qDebug() << "Folder will be added to " << bookmark.absoluteDir();
-        QDir bookmarkRoot = bookmark.absoluteDir();
+        qDebug() << bookmark.path();
+        qDebug() << bookmark.filePath();
+        QString directory = bookmark.isDir() ? bookmark.filePath() : bookmark.path();
+        QDir bookmarkRoot(directory);
         bookmarkRoot.mkdir(nf.getFolderName());
     }
 }
