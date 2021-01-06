@@ -258,7 +258,10 @@ void MainWindow::on_buttonAddBookmark_clicked()
         QJsonDocument writeDocument(jsonObject);
         QString outputFilename(nb.getName());
         outputFilename += ".json";
-        QString outputFilePath = bookmarkDirectory->filePath(outputFilename);
+        QFileInfo bookmark = GetSelectedBookmark();
+        QDir directory(bookmark.isDir() ? bookmark.filePath() : bookmark.path());
+        qDebug() << "File will be added to " << directory;
+        QString outputFilePath = directory.path().isEmpty()? bookmarkDirectory->filePath(outputFilename) : directory.filePath(outputFilename);
         qDebug() << "path to save json to is" <<  outputFilePath;
         QFile outputFile(outputFilePath);
         outputFile.open(QIODevice::WriteOnly);
