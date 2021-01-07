@@ -292,3 +292,16 @@ void MainWindow::on_pushCreateFolder_clicked()
         bookmarkRoot.mkdir(nf.getFolderName());
     }
 }
+
+void MainWindow::on_pushDelete_clicked()
+{
+    QFileInfo bookmarkToDelete = GetSelectedBookmark();
+    if(bookmarkToDelete.isDir())
+    {
+        QDir(bookmarkToDelete.absoluteFilePath()).removeRecursively();
+    }
+    else
+    {
+        QFile::remove(bookmarkToDelete.absoluteFilePath());
+    }
+}

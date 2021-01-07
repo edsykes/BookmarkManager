@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>179</width>
-    <height>483</height>
+    <height>499</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -100,6 +100,20 @@
        <widget class="QPushButton" name="pushCreateFolder">
         <property name="text">
          <string>Create Folder</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushDelete">
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="text">
+         <string>PushButton</string>
         </property>
        </widget>
       </item>
