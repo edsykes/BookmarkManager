@@ -214,6 +214,11 @@ void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
         qDebug() << "Launching chrome";
         launchChromeUrl(jsonDocument["url"].toString());
     }
+    else if(jsonDocument["browser"] == "brave")
+    {
+        qDebug() << "Launching edge";
+        launchBraveUrl(jsonDocument["url"].toString());
+    }
 }
 
 void MainWindow::launchChromeUrl(QString url)
@@ -306,11 +311,17 @@ void MainWindow::on_pushDelete_clicked()
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::launchBraveUrl(QString url)
 {
     QString program("C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe");
     QStringList arguments;
+    arguments << url;
     arguments << "-window-size=\"400,300\"";
     arguments << "-window-position=\"0,0\"";
     QProcess::startDetached(program, arguments);
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    launchBraveUrl("");
 }

@@ -22,6 +22,7 @@ public:
 
     QFileInfo GetSelectedBookmark();
     
+
 protected:
 #ifndef QT_NO_CONTEXTMENU
     void contextMenuEvent(QContextMenuEvent *event) override;
@@ -49,6 +50,7 @@ private slots:
 
 private:
     void launchChromeUrl(QString url);
+    void launchBraveUrl(QString url);
     QString readJsonFile(QString path);
     Ui::MainWindow *ui;
     QMenu *contextMenu;
