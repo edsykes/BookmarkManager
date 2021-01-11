@@ -45,6 +45,8 @@ private slots:
 
     void on_pushDelete_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     void launchChromeUrl(QString url);
     QString readJsonFile(QString path);

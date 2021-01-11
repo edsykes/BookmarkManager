@@ -305,3 +305,12 @@ void MainWindow::on_pushDelete_clicked()
         QFile::remove(bookmarkToDelete.absoluteFilePath());
     }
 }
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QString program("C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe");
+    QStringList arguments;
+    arguments << "-window-size=\"400,300\"";
+    arguments << "-window-position=\"0,0\"";
+    QProcess::startDetached(program, arguments);
+}
