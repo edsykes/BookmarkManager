@@ -20,6 +20,8 @@ public:
     void initTreeView();
     QFileInfo GetSelectedBookmark();
 
+    QRect GetCurrentScreenGeometry();
+
 protected:
 #ifndef QT_NO_CONTEXTMENU
     void contextMenuEvent(QContextMenuEvent *event) override;
@@ -40,6 +42,8 @@ private slots:
     void on_pushIE_clicked();
     void DockLeft();
 
+    void on_dockIE_clicked();
+
 private:
     void launchChromeUrl(QString url);
     void launchBraveUrl(QString url);
@@ -50,5 +54,6 @@ private:
     QAction *popupAction;
     QDir* bookmarkDirectory;
 
+    void resizeIEWindow();
 };
 #endif // MAINWINDOW_H

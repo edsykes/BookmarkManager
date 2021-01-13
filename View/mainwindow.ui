@@ -52,13 +52,6 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="startEdge">
         <property name="text">
          <string>Edge</string>
@@ -100,6 +93,13 @@
        <widget class="QPushButton" name="dockChromeRight">
         <property name="text">
          <string>Dock Chrome</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="dockIE">
+        <property name="text">
+         <string>Dock IE</string>
         </property>
        </widget>
       </item>

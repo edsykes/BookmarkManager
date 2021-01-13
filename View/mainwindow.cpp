@@ -15,9 +15,8 @@
 #include <QDesktopWidget>
 #include <QScreen>
 
-void MainWindow::DockLeft()
+QRect MainWindow::GetCurrentScreenGeometry()
 {
-    //  1.	Get the screen that the window is currently placed on
     int currentWidth = this->width();
     int topOfWindow = 0;
     int middleWidth = currentWidth / 2;
@@ -25,12 +24,16 @@ void MainWindow::DockLeft()
     QPoint globalPosition = mapToGlobal(middleOfTopOfWindow);
     QScreen* currentScreen = QGuiApplication::screenAt(globalPosition);
 
-    QSize currentSize = size();
-    currentSize.setWidth(250);
-    resize(currentSize);
-
     // 2. Get the geometry of that screen
     QRect currentScreenGeometry = currentScreen->availableGeometry();
+
+    return currentScreenGeometry;
+}
+
+void MainWindow::DockLeft()
+{
+    //  1.	Get the screen that the window is currently placed on
+    QRect currentScreenGeometry = GetCurrentScreenGeometry();
     qDebug() << "Docking left to the current screen: " << currentScreenGeometry;
     qDebug() << "Move: left = " << currentScreenGeometry.left()
              << "top = " << currentScreenGeometry.top();
@@ -144,8 +147,8 @@ void MainWindow::on_startEdge_clicked()
 
 }
 
-// worker to be passed into enumwindows that will find the chrome window
-BOOL CALLBACK findChromeWindow(HWND hwnd, LPARAM lparam) {
+BOOL CALLBACK findWindow(HWND hwnd, LPARAM lparam, char const* windowName)
+{
     int length = GetWindowTextLength(hwnd);
     // Not sure whether this is safe for cross platform. Beware.
     TCHAR* buffer = new TCHAR[length + 1];
@@ -155,12 +158,12 @@ BOOL CALLBACK findChromeWindow(HWND hwnd, LPARAM lparam) {
        strings are wide (UTF8/16. See this stackoverflow questions for more
        details: https://stackoverflow.com/questions/20327357/convert-tchar-to-qstring */
     QString qBuffer = QString::fromWCharArray(buffer);
-    if(qBuffer.contains("Chrome")) {
+    if(qBuffer.contains(windowName)) {
+        qDebug() << windowName << "found";
         /* Function that calls EnumWindows passes a pointer to the window
            handle as an argument. This means we need to cast here to be able
            to then set the value.*/
-        HWND* chromeHwnd = reinterpret_cast<HWND*>(lparam);
-        *chromeHwnd = hwnd;
+        hwnd = *(reinterpret_cast<HWND*>(lparam));
         /* EnumWindows expects a return value of false to stop
            enumerating the windows */
         return FALSE;
@@ -170,6 +173,18 @@ BOOL CALLBACK findChromeWindow(HWND hwnd, LPARAM lparam) {
        through the windows. If we didn't find the chrome window we
        need to keep on searching. */
     return TRUE;
+}
+
+// worker to be passed into enumwindows that will find the chrome window
+BOOL CALLBACK findChromeWindow(HWND hwnd, LPARAM lparam)
+{
+    return findWindow(hwnd, lparam, "Chrome");
+}
+
+// worker to be passed into enumwindows that will find the chrome window
+BOOL CALLBACK findIEWindow(HWND hwnd, LPARAM lparam)
+{
+    return findWindow(hwnd, lparam, "Internet Explorer");
 }
 
 void MainWindow::on_dockChromeRight_clicked()
@@ -337,6 +352,24 @@ void MainWindow::on_pushButton_2_clicked()
     launchBraveUrl("");
 }
 
+void MainWindow::resizeIEWindow()
+{
+    HWND chromeHwnd = 0;
+    HWND chromeLparamHwnd = 0;
+    LPARAM params = reinterpret_cast<LPARAM>(&chromeLparamHwnd);
+    /* There is an alternative method of retrieving the chrome window. Instead of using EnumWindows,
+       you can use FindWindow and pass in the class name, window title, or both. The issue with
+       trying to do this in order to find the chrome window, is that a) brave may be
+       installed - which also identifies itself as chrome under the hood by using
+       the same class name b) find window does not allow you to pass a partial name to
+       identify the window - the chrome window starts with the name of the website of the
+       first tab as the title so a partial search for 'chome' is the only way to go. */
+    EnumWindows(findIEWindow, params);
+    chromeHwnd = chromeLparamHwnd;
+    qDebug() << "chrome resize clicked " << chromeHwnd;
+    WINBOOL result = SetWindowPos(chromeHwnd, NULL, 200, 100, 500, 500, SWP_NOZORDER | SWP_NOACTIVATE);
+    qDebug() << "SetWindowPos result" << result;
+}
 
 void MainWindow::launchIEUrl(QString url)
 {
@@ -344,9 +377,17 @@ void MainWindow::launchIEUrl(QString url)
     QStringList arguments;
     arguments << url;
     QProcess::startDetached(program, arguments);
+    QRect screenGeometry = GetCurrentScreenGeometry();
+    resizeIEWindow();
 }
 
 void MainWindow::on_pushIE_clicked()
 {
     launchIEUrl("");
+}
+
+
+void MainWindow::on_dockIE_clicked()
+{
+    resizeIEWindow();
 }
