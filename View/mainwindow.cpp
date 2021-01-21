@@ -163,7 +163,8 @@ BOOL CALLBACK findWindow(HWND hwnd, LPARAM lparam, char const* windowName)
         /* Function that calls EnumWindows passes a pointer to the window
            handle as an argument. This means we need to cast here to be able
            to then set the value.*/
-        hwnd = *(reinterpret_cast<HWND*>(lparam));
+        HWND* chromeHwnd = reinterpret_cast<HWND*>(lparam);
+        *chromeHwnd = hwnd;
         /* EnumWindows expects a return value of false to stop
            enumerating the windows */
         return FALSE;
