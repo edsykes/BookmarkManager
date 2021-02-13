@@ -3,10 +3,12 @@
 
 #include <QMainWindow>
 
+
 QT_BEGIN_NAMESPACE
 
 class QDir;
 class QFileInfo;
+
 namespace Ui { class MainWindow;}
 QT_END_NAMESPACE
 
@@ -53,7 +55,6 @@ private:
     QMenu *contextMenu;
     QAction *popupAction;
     QDir* bookmarkDirectory;
-
     void resizeIEWindow();
 };
 #endif // MAINWINDOW_H

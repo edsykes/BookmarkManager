@@ -22,25 +22,6 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QTreeView" name="treeView">
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="indentation">
-       <number>20</number>
-      </property>
-      <attribute name="headerVisible">
-       <bool>false</bool>
-      </attribute>
-     </widget>
-    </item>
-    <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
        <number>0</number>
@@ -51,6 +32,25 @@
       <property name="leftMargin">
        <number>0</number>
       </property>
+      <item>
+       <widget class="QTreeView" name="treeView">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
+        </property>
+        <property name="indentation">
+         <number>20</number>
+        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
+       </widget>
+      </item>
       <item>
        <widget class="QPushButton" name="startEdge">
         <property name="text">
@@ -87,30 +87,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="bookmarkDirectory"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="dockChromeRight">
-        <property name="text">
-         <string>Dock Chrome</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="dockIE">
-        <property name="text">
-         <string>Dock IE</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushDockLeft">
-        <property name="text">
-         <string>Dock Left</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="pushCreateFolder">
         <property name="text">
          <string>Create Folder</string>
@@ -124,32 +100,9 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>179</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuBookmarks">
-    <property name="title">
-     <string>Bookmarks</string>
-    </property>
-   </widget>
-   <addaction name="menuBookmarks"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

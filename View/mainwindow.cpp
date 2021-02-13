@@ -14,6 +14,9 @@
 #include <utility>
 #include <QDesktopWidget>
 #include <QScreen>
+#include <QThread>
+#include <QAction>
+#include <QMenu>
 
 QRect MainWindow::GetCurrentScreenGeometry()
 {
@@ -66,7 +69,7 @@ void MainWindow::initTreeView(){
     model->setRootPath(bookmarkDirectory->path());
     ui->treeView->setModel(model);
     ui->treeView->setRootIndex(model->setRootPath(bookmarkDirectory->path()));
-    ui->bookmarkDirectory->setText(model->rootPath());
+    //ui->bookmarkDirectory->setText(model->rootPath());
     ui->treeView->setContextMenuPolicy(Qt::ActionsContextMenu);
     for (int i = 1; i < model->columnCount(); ++i)
         ui->treeView->hideColumn(i);
@@ -179,7 +182,7 @@ BOOL CALLBACK findWindow(HWND hwnd, LPARAM lparam, char const* windowName)
 // worker to be passed into enumwindows that will find the chrome window
 BOOL CALLBACK findChromeWindow(HWND hwnd, LPARAM lparam)
 {
-    return findWindow(hwnd, lparam, "Chrome");
+    return findWindow(hwnd, lparam, "Internet");
 }
 
 // worker to be passed into enumwindows that will find the chrome window
@@ -378,8 +381,8 @@ void MainWindow::launchIEUrl(QString url)
     QStringList arguments;
     arguments << url;
     QProcess::startDetached(program, arguments);
-    QRect screenGeometry = GetCurrentScreenGeometry();
-    resizeIEWindow();
+    QThread::sleep(5);
+    on_dockIE_clicked();
 }
 
 void MainWindow::on_pushIE_clicked()
@@ -390,5 +393,5 @@ void MainWindow::on_pushIE_clicked()
 
 void MainWindow::on_dockIE_clicked()
 {
-    resizeIEWindow();
+    on_dockChromeRight_clicked();
 }
