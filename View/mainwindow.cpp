@@ -283,3 +283,8 @@ void MainWindow::launchIEUrl(QString url)
     QProcess::startDetached(program, arguments);
     QThread::sleep(5);
 }
+
+void MainWindow::on_pushIE_clicked()
+{
+    launchIEUrl("");
+}
