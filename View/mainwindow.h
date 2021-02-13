@@ -34,17 +34,12 @@ private slots:
     void onPopupMenuClicked();
     void on_pushStartChrome_clicked();
     void on_startEdge_clicked();
-    void on_dockChromeRight_clicked();
     void on_treeView_doubleClicked(const QModelIndex &index);
     void on_buttonAddBookmark_clicked();
-    void on_pushDockLeft_clicked();
     void on_pushCreateFolder_clicked();
     void on_pushDelete_clicked();
     void on_pushButton_2_clicked();
     void on_pushIE_clicked();
-    void DockLeft();
-
-    void on_dockIE_clicked();
 
 private:
     void launchChromeUrl(QString url);
