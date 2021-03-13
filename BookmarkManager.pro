@@ -11,12 +11,14 @@ CONFIG += c++11
 QMAKE_CXXFLAGS = -std=c++11
 
 SOURCES += \
+    View/bookmarkiconprovider.cpp \
     View/newbookmark.cpp \
     View/newfolder.cpp \
     main.cpp \
     View/mainwindow.cpp
 
 HEADERS += \
+    View/bookmarkiconprovider.h \
     View/mainwindow.h \
     View/newbookmark.h \
     View/newfolder.h

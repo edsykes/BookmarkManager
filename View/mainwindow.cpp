@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "newbookmark.h"
 #include "newfolder.h"
+#include "bookmarkiconprovider.h"
 #include <QContextMenuEvent>
 #include <QFileSystemModel>
 #include <QMessageBox>
@@ -53,6 +54,8 @@ MainWindow::~MainWindow()
 void MainWindow::initTreeView(){
     QFileSystemModel *model = new QFileSystemModel;
     model->setRootPath(bookmarkDirectory->path());
+    BookmarkIconProvider* bookmarkIcons = new BookmarkIconProvider();
+    model->setIconProvider(bookmarkIcons);
     ui->treeView->setModel(model);
     ui->treeView->setRootIndex(model->setRootPath(bookmarkDirectory->path()));
     //ui->bookmarkDirectory->setText(model->rootPath());
