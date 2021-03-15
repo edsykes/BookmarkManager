@@ -18,6 +18,7 @@
 #include <QThread>
 #include <QAction>
 #include <QMenu>
+#include <QtNetwork/QNetworkAccessManager>
 
 QRect MainWindow::GetCurrentScreenGeometry()
 {
@@ -229,6 +230,12 @@ void MainWindow::on_buttonAddBookmark_clicked()
         outputFile.open(QIODevice::WriteOnly);
         outputFile.write(writeDocument.toJson());
         outputFile.close();
+
+        QUrl url = QUrl(nb.getUrl());
+        QString faviconUrl = url.host() + "/favicon.ico";
+        qDebug() << faviconUrl;
+        //QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
+        //QNetworkRequest request(url);
     }
 }
 
