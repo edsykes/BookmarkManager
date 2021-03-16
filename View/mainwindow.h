@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QNetworkReply>
 
 
 QT_BEGIN_NAMESPACE
@@ -40,6 +41,7 @@ private slots:
     void on_pushDelete_clicked();
     void on_pushButton_2_clicked();
     void on_pushIE_clicked();
+    void on_queryFinish(QNetworkReply* networkReply);
 
 private:
     void launchChromeUrl(QString url);

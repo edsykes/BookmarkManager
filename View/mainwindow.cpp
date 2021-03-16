@@ -18,7 +18,7 @@
 #include <QThread>
 #include <QAction>
 #include <QMenu>
-#include <QtNetwork/QNetworkAccessManager>
+#include <QNetworkAccessManager>
 
 QRect MainWindow::GetCurrentScreenGeometry()
 {
@@ -232,10 +232,14 @@ void MainWindow::on_buttonAddBookmark_clicked()
         outputFile.close();
 
         QUrl url = QUrl(nb.getUrl());
-        QString faviconUrl = url.host() + "/favicon.ico";
+        QString faviconUrl = url.toString(QUrl::RemovePath) + "/favicon.ico";
         qDebug() << faviconUrl;
-        //QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
-        //QNetworkRequest request(url);
+        QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
+        QNetworkRequest request(url);
+        connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_queryFinish(QNetworkReply*)));
+        connect(mgr, SIGNAL(finished(QNetworkReply*)), mgr, SLOT(deleteLater()));
+        mgr->get(request);
+
     }
 }
 
@@ -297,4 +301,10 @@ void MainWindow::launchIEUrl(QString url)
 void MainWindow::on_pushIE_clicked()
 {
     launchIEUrl("");
+}
+
+void MainWindow::on_queryFinish(QNetworkReply* networkReply)
+{
+    qDebug() << "query finish starting";
+    qDebug() << "query finish ending";
 }

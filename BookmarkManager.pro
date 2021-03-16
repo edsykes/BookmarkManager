@@ -1,4 +1,5 @@
 QT       += core gui
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,6 +28,8 @@ FORMS += \
     View/mainwindow.ui \
     View/newbookmark.ui \
     View/newfolder.ui
+
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
