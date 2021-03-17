@@ -3,6 +3,7 @@
 #include "newbookmark.h"
 #include "newfolder.h"
 #include "bookmarkiconprovider.h"
+#include "favicondownloader.h"
 #include <QContextMenuEvent>
 #include <QFileSystemModel>
 #include <QMessageBox>
@@ -231,15 +232,8 @@ void MainWindow::on_buttonAddBookmark_clicked()
         outputFile.write(writeDocument.toJson());
         outputFile.close();
 
-        QUrl url = QUrl(nb.getUrl());
-        QString faviconUrl = url.toString(QUrl::RemovePath) + "/favicon.ico";
-        qDebug() << faviconUrl;
-        QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
-        QNetworkRequest request(url);
-        connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_queryFinish(QNetworkReply*)));
-        connect(mgr, SIGNAL(finished(QNetworkReply*)), mgr, SLOT(deleteLater()));
-        mgr->get(request);
-
+        FaviconDownloader *downloader = new FaviconDownloader(outputFilePath, nb.getUrl());
+        connect(downloader, SIGNAL(finished(QNetworkReply*)), downloader, SLOT(deleteLater()));
     }
 }
 
@@ -301,10 +295,4 @@ void MainWindow::launchIEUrl(QString url)
 void MainWindow::on_pushIE_clicked()
 {
     launchIEUrl("");
-}
-
-void MainWindow::on_queryFinish(QNetworkReply* networkReply)
-{
-    qDebug() << "query finish starting";
-    qDebug() << "query finish ending";
 }

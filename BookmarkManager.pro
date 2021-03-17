@@ -13,6 +13,7 @@ QMAKE_CXXFLAGS = -std=c++11
 
 SOURCES += \
     View/bookmarkiconprovider.cpp \
+    View/favicondownloader.cpp \
     View/newbookmark.cpp \
     View/newfolder.cpp \
     main.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 
 HEADERS += \
     View/bookmarkiconprovider.h \
+    View/favicondownloader.h \
     View/mainwindow.h \
     View/newbookmark.h \
     View/newfolder.h
