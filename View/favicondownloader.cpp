@@ -17,7 +17,20 @@ FaviconDownloader::FaviconDownloader(QString iconPath, QString urlPath)
     QNetworkRequest request(url);
     connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_queryFinish(QNetworkReply*)));
     connect(mgr, SIGNAL(finished(QNetworkReply*)), mgr, SLOT(deleteLater()));
+    const char* mgrSslSignal = SIGNAL(sslErrors(QNetworkReply* reply, const QList<QSslError>& errors));
+    const char* sslSlot = SLOT(on_sslErrors(QNetworkReply* reply, const QList<QSslError>& errors));
+    connect(mgr, mgrSslSignal, this, sslSlot);
     mgr->get(request);
+
+}
+
+FaviconDownloader::~FaviconDownloader()
+{
+
+}
+
+void FaviconDownloader::on_deleteLater()
+{
 
 }
 
@@ -29,4 +42,14 @@ void FaviconDownloader::on_queryFinish(QNetworkReply *reply)
     file.open(QIODevice::WriteOnly);
     file.write(reply->readAll());
     delete reply;
+}
+
+void FaviconDownloader::on_SslErrors(QNetworkReply* reply, const QList<QSslError>& errors)
+{
+    QList<QSslError>::const_iterator i;
+    for(i = errors.begin(); i != errors.end(); ++i)
+    {
+        qDebug() << i->errorString();
+    }
+    qDebug() << "ssl errors complete";
 }
