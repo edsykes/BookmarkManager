@@ -17,6 +17,7 @@ FaviconDownloader::FaviconDownloader(QString iconPath, QString urlPath)
     QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
     QUrl furl(faviconUrl);
     QNetworkRequest request(furl);
+    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_queryFinish(QNetworkReply*)));
     connect(mgr, SIGNAL(finished(QNetworkReply*)), mgr, SLOT(deleteLater()));
     const char* mgrSslSignal = SIGNAL(sslErrors(QNetworkReply* reply, const QList<QSslError>& errors));
@@ -46,6 +47,7 @@ void FaviconDownloader::on_queryFinish(QNetworkReply *reply)
     QFile file(iconFile);
     file.open(QIODevice::WriteOnly);
     file.write(reply->readAll());
+    file.flush();
     file.close();
 }
 
