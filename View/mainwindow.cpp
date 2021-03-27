@@ -56,6 +56,10 @@ MainWindow::~MainWindow()
 void MainWindow::initTreeView(){
     QFileSystemModel *model = new QFileSystemModel;
     model->setRootPath(bookmarkDirectory->path());
+    QStringList filters;
+    filters << "*.bmk";
+    model->setNameFilterDisables(false);
+    model->setNameFilters(filters);
     BookmarkIconProvider* bookmarkIcons = new BookmarkIconProvider();
     model->setIconProvider(bookmarkIcons);
     ui->treeView->setModel(model);
