@@ -11,12 +11,10 @@ FaviconDownloader::FaviconDownloader(QString iconPath, QString urlPath)
 {
     this->iconPath = iconPath;
     QUrl url = QUrl(urlPath);
-    QString faviconUrl = url.toString(QUrl::RemovePath | QUrl::RemoveScheme) + "/favicon.ico";
-    faviconUrl = "http:" + faviconUrl;
-    qDebug() << faviconUrl;
+    url.setPath("/favicon.ico");
+    qDebug() << url.toString();
     QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
-    QUrl furl(faviconUrl);
-    QNetworkRequest request(furl);
+    QNetworkRequest request(url);
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_queryFinish(QNetworkReply*)));
     connect(mgr, SIGNAL(finished(QNetworkReply*)), mgr, SLOT(deleteLater()));
