@@ -224,7 +224,7 @@ void MainWindow::on_buttonAddBookmark_clicked()
         jsonObject.insert("browser", nb.getBrowser());
         QJsonDocument writeDocument(jsonObject);
         QString outputFilename(nb.getName());
-        outputFilename += ".json";
+        outputFilename += ".bmk";
         QFileInfo selection = GetSelectedBookmark();
         qDebug() << (selection.isDir() ? "selection is a directory" : "selection is a bookmark");
         QDir directory(selection.isDir() ? selection.filePath() : selection.path());
