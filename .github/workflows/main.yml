@@ -32,4 +32,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Clean the build
-        run: scripts/clean.sh
+        run: ./.github/scripts/clean.sh
