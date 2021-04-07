@@ -8,5 +8,6 @@ ls
 make.exe -f ./Makefile qmake_all
 echo starting the final build
 cd D:/a/BookmarkManager/BookmarkManager
+cat Makefile
 make.exe -j4
 
