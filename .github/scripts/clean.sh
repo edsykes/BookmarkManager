@@ -2,7 +2,7 @@
 
 make.exe clean -j400
 pwd
-qmake BookmarkManager\BookmarkManager.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 ls
-cd
+qmake BookmarkManager.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 ls
+
