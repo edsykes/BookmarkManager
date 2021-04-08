@@ -21,5 +21,6 @@ echo make command is $(MAKE)
 echo starting the final build
 cd D:/a/BookmarkManager/BookmarkManager
 echo start make
+C:/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/mingw32-make -n -f Makefile.Debug
 make.exe -n -j4
 
