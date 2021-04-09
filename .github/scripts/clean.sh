@@ -21,7 +21,7 @@ echo make command is $(MAKE)
 echo starting the final build
 cd D:/a/BookmarkManager/BookmarkManager
 echo cat the debug make file
-cat Mafefile.Debug
+cat Makefile.Debug
 pwd
 ls
 echo start make
