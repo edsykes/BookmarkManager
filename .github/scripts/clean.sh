@@ -16,7 +16,7 @@ qmake ./BookmarkManager.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 echo list files post qmake
 ls
 echo qt library dir listing
-ls qt/5.15.2/mingw81_64/lib/
+ls Qt/5.15.2/mingw81_64/lib/
 echo create make file
 make.exe -n -f ./Makefile qmake_all
 echo make command is $(MAKE) 
