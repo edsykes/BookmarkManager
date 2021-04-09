@@ -20,7 +20,10 @@ make.exe -n -f ./Makefile qmake_all
 echo make command is $(MAKE) 
 echo starting the final build
 cd D:/a/BookmarkManager/BookmarkManager
+echo cat the debug make file
+cat Mafefile.Debug
 echo start make
 C:/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/mingw32-make -n -f Makefile.Debug
-make.exe -n -j4
+
+#make.exe -n -j4
 
