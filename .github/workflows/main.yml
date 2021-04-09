@@ -25,6 +25,8 @@ jobs:
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.13.0
+        with: 
+          module: qtwidgets
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
