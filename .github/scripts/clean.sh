@@ -22,6 +22,8 @@ echo starting the final build
 cd D:/a/BookmarkManager/BookmarkManager
 echo cat the debug make file
 cat Mafefile.Debug
+pwd
+ls
 echo start make
 C:/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/mingw32-make -n -f Makefile.Debug
 
