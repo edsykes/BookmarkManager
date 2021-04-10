@@ -36,3 +36,9 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Clean the build
         run: sh ./.github/scripts/clean.sh
+
+        name: Add release folder to artefacts
+        uses: actions/upload-artifact@v2
+        with: 
+          name: assets-for-download
+          path: ./release
