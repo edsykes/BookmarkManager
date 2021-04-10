@@ -37,7 +37,7 @@ jobs:
       - name: Clean the build
         run: sh ./.github/scripts/clean.sh
 
-        name: Add release folder to artefacts
+      - name: Add release folder to artefacts
         uses: actions/upload-artifact@v2
         with: 
           name: assets-for-download
