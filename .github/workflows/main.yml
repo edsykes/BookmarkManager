@@ -26,7 +26,8 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.13.0
         with: 
-          module: qtwidgets
+          # module: qtwidgets # this is here because I thought that there is a missing module
+          arch: 'win64_mingw81'
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
