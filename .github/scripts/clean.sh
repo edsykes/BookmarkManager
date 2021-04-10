@@ -10,5 +10,6 @@ cd debug
 echo debug dir contents
 ls
 cd ../release
+pwd
 echo release dir contents
 ls
