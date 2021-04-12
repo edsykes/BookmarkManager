@@ -1,4 +1,4 @@
 #!/bin/bash
 
 mkdir deployment
-windeployqt release/BookmarkManager.exe --dir deploymentd
+windeployqt release/BookmarkManager.exe --dir deployment
