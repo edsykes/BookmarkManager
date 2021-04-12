@@ -40,8 +40,8 @@ jobs:
       - name: Create a deployment
         run: sh ./.github/scripts/deploy.sh
 
-      - name: Add release folder to artefacts
+      - name: Add deployment folder to artefacts
         uses: actions/upload-artifact@v2
         with: 
-          name: assets-for-download
-          path: ./release
+          name: deployment
+          path: ./deployment
