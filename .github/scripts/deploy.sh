@@ -1,5 +1,6 @@
 #!/bin/bash
 
 mkdir deployment
-windeployqt release/BookmarkManager.exe --dir deployment-$BUILD_NUMBER
-cp release/BookmarkManager.exe deployment-BUILD_NUMBER
+echo $BUILD_NUMBER
+windeployqt release/BookmarkManager.exe --dir deployment-$1
+cp release/BookmarkManager.exe deployment-$1
