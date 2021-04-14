@@ -46,11 +46,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: bookmark-manager-release-0.1.${{ github.run_number }}
-          path: ./deployment-${{ github.run_number }}
-
-      - name: Create a Release
-        uses: elgohr/Github-Release-Action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          args: MyReleaseMessage
+          path: ./deployment-${{ github.run_number }
