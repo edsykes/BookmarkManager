@@ -21,6 +21,7 @@
 #include <QMenu>
 #include <QNetworkAccessManager>
 #include <QStandardPaths>
+#include <QJsonArray>
 
 QRect MainWindow::GetCurrentScreenGeometry()
 {
@@ -58,6 +59,7 @@ void MainWindow::loadSettings(){
     QPair<bool, QJsonDocument> readSettingsResult = readJson("settings.json");
     if(readSettingsResult.first == false)
     {
+        // create the bookmark directory
         QString homeLocation = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
         bookmarkDirectory = new QDir(homeLocation + "/Bookmarks");
         if(bookmarkDirectory->exists() == false)
@@ -65,15 +67,51 @@ void MainWindow::loadSettings(){
             bookmarkDirectory->mkdir(".");
         }
 
+        // create the bookmark settings file
+        // BookmarkDirectory
         QJsonObject jsonObject;
         jsonObject.insert("version", "0.1");
         jsonObject.insert("bookmarkDirectory", bookmarkDirectory->path());
+
+        // browsers
+        QJsonArray browsers;
+        QJsonObject chrome;
+        chrome.insert("name", "chrome");
+        chrome.insert("path", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
+
+        QJsonObject firefox;
+        firefox.insert("name", "firefox");
+        firefox.insert("path", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
+
+        QJsonObject brave;
+        brave.insert("name", "brave");
+        brave.insert("path", "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe");
+
+        QJsonObject ie;
+        ie.insert("name", "ie");
+        ie.insert("path", "C:/Program Files/Internet Explorer/iexplore.exe");
+
+        QJsonObject edge;
+        edge.insert("name", "edge");
+        edge.insert("path", "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe");
+
+        browsers.push_back(chrome);
+        browsers.push_back(firefox);
+        browsers.push_back(brave);
+        browsers.push_back(ie);
+        browsers.push_back(edge);
+
+        jsonObject.insert("browsers", browsers);
+
+        // write the document
         QJsonDocument writeDocument(jsonObject);
         QString outputFilename("settings.json");
         QFile outputFile(outputFilename);
         outputFile.open(QIODevice::WriteOnly);
         outputFile.write(writeDocument.toJson());
         outputFile.close();
+
+
     }
     else if(readSettingsResult.first && readSettingsResult.second["bookmarkDirectory"] == "")
     {
