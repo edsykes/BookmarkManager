@@ -20,6 +20,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QNetworkAccessManager>
+#include <QStandardPaths>
 
 QRect MainWindow::GetCurrentScreenGeometry()
 {
@@ -45,12 +46,66 @@ MainWindow::MainWindow(QWidget *parent)
     popupAction = new QAction("pop up");
     connect(popupAction, &QAction::triggered, this, &MainWindow::onPopupMenuClicked);
 
-    bookmarkDirectory = new QDir("C:/Users/edsyk/OneDrive/Bookmarks");
+    loadSettings();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::loadSettings(){
+    QPair<bool, QJsonDocument> readSettingsResult = readJson("settings.json");
+    if(readSettingsResult.first == false)
+    {
+        QString homeLocation = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+        bookmarkDirectory = new QDir(homeLocation + "/Bookmarks");
+        if(bookmarkDirectory->exists() == false)
+        {
+            bookmarkDirectory->mkdir(".");
+        }
+
+        QJsonObject jsonObject;
+        jsonObject.insert("version", "0.1");
+        jsonObject.insert("bookmarkDirectory", bookmarkDirectory->path());
+        QJsonDocument writeDocument(jsonObject);
+        QString outputFilename("settings.json");
+        QFile outputFile(outputFilename);
+        outputFile.open(QIODevice::WriteOnly);
+        outputFile.write(writeDocument.toJson());
+        outputFile.close();
+    }
+    else if(readSettingsResult.first && readSettingsResult.second["bookmarkDirectory"] == "")
+    {
+        QString homeLocation = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+        bookmarkDirectory = new QDir(homeLocation + "/Bookmarks");
+        if(bookmarkDirectory->exists() == false)
+        {
+            bookmarkDirectory->mkdir(".");
+        }
+
+        QJsonObject settingsJsonObject = readSettingsResult.second.object();
+        settingsJsonObject["bookmarkDirectory"] = bookmarkDirectory->path();
+        QJsonDocument writeDocument(settingsJsonObject);
+        QString outputFilename("settings.json");
+        QFile outputFile(outputFilename);
+        outputFile.open(QIODevice::WriteOnly);
+        outputFile.write(writeDocument.toJson());
+        outputFile.close();
+    }
+    else if (readSettingsResult.first)
+    {
+        bookmarkDirectory = new QDir(readSettingsResult.second["bookmarkDirectory"].toString());
+        if(bookmarkDirectory->exists() == false)
+        {
+            bookmarkDirectory->mkdir(".");
+        }
+    }
+    else
+    {
+        // The other if statements should take care of all known configs
+        Q_ASSERT(false);
+    }
 }
 
 void MainWindow::initTreeView(){
@@ -145,6 +200,25 @@ void MainWindow::on_startEdge_clicked()
 
 }
 
+QPair<bool, QJsonDocument>  MainWindow::readJson(QString filename)
+{
+    QString bookmarkJson = readJsonFile(filename);
+    if(bookmarkJson.size() == 0) {
+        return QPair<bool, QJsonDocument>(false, QJsonDocument());
+    };
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(bookmarkJson.toUtf8(), &parseError);
+    if(parseError.error != QJsonParseError::NoError)
+    {
+        qDebug() << "Error while parsing Json";
+        return QPair<bool, QJsonDocument>(false, QJsonDocument());
+    }
+
+    return QPair<bool, QJsonDocument>(true, jsonDocument);
+}
+
+
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
     qDebug() << index.column();
@@ -202,9 +276,7 @@ QString MainWindow::readJsonFile(QString path)
         return "";
     }
 
-    QString bookmark = jsonFile.readAll();
-
-    return bookmark;
+    return jsonFile.readAll();
 }
 
 void MainWindow::on_buttonAddBookmark_clicked()

@@ -22,8 +22,8 @@ public:
     ~MainWindow();
     void initTreeView();
     QFileInfo GetSelectedBookmark();
-
     QRect GetCurrentScreenGeometry();
+    QPair<bool, QJsonDocument> readJson(QString filename);
 
 protected:
 #ifndef QT_NO_CONTEXTMENU
@@ -43,6 +43,7 @@ private slots:
     void on_pushIE_clicked();
 
 private:
+    void loadSettings();
     void launchChromeUrl(QString url);
     void launchBraveUrl(QString url);
     void launchIEUrl(QString url);

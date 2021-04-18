@@ -1,6 +1,6 @@
 #include "favicondownloader.h"
 
-#include <Qurl>
+#include <QUrl>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -49,7 +49,7 @@ void FaviconDownloader::on_queryFinish(QNetworkReply *reply)
     file.close();
 }
 
-void FaviconDownloader::on_SslErrors(QNetworkReply* reply, const QList<QSslError>& errors)
+void FaviconDownloader::on_SslErrors(QNetworkReply* /*reply*/, const QList<QSslError>& errors)
 {
     QList<QSslError>::const_iterator i;
     for(i = errors.begin(); i != errors.end(); ++i)
