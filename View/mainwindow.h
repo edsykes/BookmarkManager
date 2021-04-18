@@ -52,6 +52,7 @@ private:
     QMenu *contextMenu;
     QAction *popupAction;
     QDir* bookmarkDirectory;
+    QVector<QPair<QString, QString>> browsers;
     void resizeIEWindow();
 };
 #endif // MAINWINDOW_H

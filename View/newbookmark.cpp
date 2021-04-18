@@ -1,11 +1,12 @@
 #include "newbookmark.h"
 #include "ui_newbookmark.h"
 
-NewBookmark::NewBookmark(QWidget *parent) :
+NewBookmark::NewBookmark(QStringList browsers, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewBookmark)
 {
     ui->setupUi(this);
+    ui->browserCombo->insertItems(0,browsers);
 }
 
 NewBookmark::~NewBookmark()

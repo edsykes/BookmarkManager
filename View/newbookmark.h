@@ -11,7 +11,7 @@ class NewBookmark : public QDialog
 {
     Q_OBJECT
 public:
-    explicit NewBookmark(QWidget *parent = nullptr);
+    explicit NewBookmark(QStringList browsers, QWidget *parent = nullptr);
     ~NewBookmark();
     QString getBrowser();    
     QString getUrl();

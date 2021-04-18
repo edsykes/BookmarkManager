@@ -81,7 +81,7 @@ void MainWindow::loadSettings(){
 
         QJsonObject firefox;
         firefox.insert("name", "firefox");
-        firefox.insert("path", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
+        firefox.insert("path", "C:/Program Files/Mozilla Firefox/firefox.exe");
 
         QJsonObject brave;
         brave.insert("name", "brave");
@@ -137,6 +137,14 @@ void MainWindow::loadSettings(){
         if(bookmarkDirectory->exists() == false)
         {
             bookmarkDirectory->mkdir(".");
+        }
+
+        // populate the browsers
+        QJsonArray browserSettings = readSettingsResult.second["browsers"].toArray();
+        for(QJsonArray::const_iterator begin = browserSettings.begin(); begin != browserSettings.end(); begin++)
+        {
+            QJsonObject browser = begin->toObject();
+            browsers.push_back(QPair<QString, QString>(browser["name"].toString(), browser["path"].toString()));
         }
     }
     else
@@ -319,7 +327,14 @@ QString MainWindow::readJsonFile(QString path)
 
 void MainWindow::on_buttonAddBookmark_clicked()
 {
-    NewBookmark nb(this);
+    QStringList browserNames;
+
+    for(QVector<QPair<QString, QString>>::iterator begin = browsers.begin(); begin != browsers.end(); ++begin)
+    {
+        browserNames.append(begin->first);
+    }
+
+    NewBookmark nb(browserNames, this);
     nb.show();
     int result = nb.exec();
     if(result == QDialog::Accepted)
