@@ -55,6 +55,40 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::writeBrowsersToJson(QJsonObject& jsonObject)
+{
+    // create the bookmark settings file
+    // browsers
+    QJsonArray browsers;
+    QJsonObject chrome;
+    chrome.insert("name", "chrome");
+    chrome.insert("path", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
+
+    QJsonObject firefox;
+    firefox.insert("name", "firefox");
+    firefox.insert("path", "C:/Program Files/Mozilla Firefox/firefox.exe");
+
+    QJsonObject brave;
+    brave.insert("name", "brave");
+    brave.insert("path", "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe");
+
+    QJsonObject ie;
+    ie.insert("name", "ie");
+    ie.insert("path", "C:/Program Files/Internet Explorer/iexplore.exe");
+
+    QJsonObject edge;
+    edge.insert("name", "edge");
+    edge.insert("path", "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe");
+
+    browsers.push_back(chrome);
+    browsers.push_back(firefox);
+    browsers.push_back(brave);
+    browsers.push_back(ie);
+    browsers.push_back(edge);
+
+    jsonObject.insert("browsers", browsers);
+}
+
 void MainWindow::loadSettings(){
     QPair<bool, QJsonDocument> readSettingsResult = readJson("settings.json");
     if(readSettingsResult.first == false)
@@ -67,42 +101,11 @@ void MainWindow::loadSettings(){
             bookmarkDirectory->mkdir(".");
         }
 
-        // create the bookmark settings file
-        // BookmarkDirectory
         QJsonObject jsonObject;
+        // BookmarkDirectory
         jsonObject.insert("version", "0.1");
         jsonObject.insert("bookmarkDirectory", bookmarkDirectory->path());
-
-        // browsers
-        QJsonArray browsers;
-        QJsonObject chrome;
-        chrome.insert("name", "chrome");
-        chrome.insert("path", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
-
-        QJsonObject firefox;
-        firefox.insert("name", "firefox");
-        firefox.insert("path", "C:/Program Files/Mozilla Firefox/firefox.exe");
-
-        QJsonObject brave;
-        brave.insert("name", "brave");
-        brave.insert("path", "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe");
-
-        QJsonObject ie;
-        ie.insert("name", "ie");
-        ie.insert("path", "C:/Program Files/Internet Explorer/iexplore.exe");
-
-        QJsonObject edge;
-        edge.insert("name", "edge");
-        edge.insert("path", "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe");
-
-        browsers.push_back(chrome);
-        browsers.push_back(firefox);
-        browsers.push_back(brave);
-        browsers.push_back(ie);
-        browsers.push_back(edge);
-
-        jsonObject.insert("browsers", browsers);
-
+        writeBrowsersToJson(jsonObject);
         // write the document
         QJsonDocument writeDocument(jsonObject);
         QString outputFilename("settings.json");
@@ -123,6 +126,12 @@ void MainWindow::loadSettings(){
         }
 
         QJsonObject settingsJsonObject = readSettingsResult.second.object();
+        if(readSettingsResult.second["browsers"].isUndefined())
+        {
+            // populate the browsers
+            writeBrowsersToJson(settingsJsonObject);
+        }
+
         settingsJsonObject["bookmarkDirectory"] = bookmarkDirectory->path();
         QJsonDocument writeDocument(settingsJsonObject);
         QString outputFilename("settings.json");
@@ -327,8 +336,9 @@ QString MainWindow::readJsonFile(QString path)
 
 void MainWindow::on_buttonAddBookmark_clicked()
 {
+    // Take the browsers out of the settings and put them into browser names to be displayed in the new
+    // bookmark dialog
     QStringList browserNames;
-
     for(QVector<QPair<QString, QString>>::iterator begin = browsers.begin(); begin != browsers.end(); ++begin)
     {
         browserNames.append(begin->first);

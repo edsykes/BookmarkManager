@@ -54,5 +54,6 @@ private:
     QDir* bookmarkDirectory;
     QVector<QPair<QString, QString>> browsers;
     void resizeIEWindow();
+    void writeBrowsersToJson(QJsonObject& jsonObject);
 };
 #endif // MAINWINDOW_H
