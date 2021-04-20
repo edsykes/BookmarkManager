@@ -16,7 +16,7 @@ NewBookmark::~NewBookmark()
 
 QString NewBookmark::getBrowser()
 {
-    return browser;
+    return ui->browserCombo->currentText();
 }
 
 QString NewBookmark::getName()
@@ -27,12 +27,6 @@ QString NewBookmark::getName()
 QString NewBookmark::getUrl()
 {
     return url;
-}
-
-void NewBookmark::on_editBrowser_editingFinished()
-{
-    browser = ui->editBrowser->text();
-
 }
 
 void NewBookmark::on_editBoxName_editingFinished()

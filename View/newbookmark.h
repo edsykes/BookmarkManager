@@ -17,7 +17,6 @@ public:
     QString getUrl();
     QString getName();
 private slots:
-    void on_editBrowser_editingFinished();
     void on_editBoxName_editingFinished();
     void on_editBoxUrl_editingFinished();
 private:

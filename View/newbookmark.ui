@@ -29,16 +29,6 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="editBrowser">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>80</y>
-     <width>113</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -101,8 +91,8 @@
   <widget class="QComboBox" name="browserCombo">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>30</y>
+     <x>10</x>
+     <y>80</y>
      <width>191</width>
      <height>22</height>
     </rect>
@@ -111,7 +101,6 @@
  </widget>
  <tabstops>
   <tabstop>editBoxName</tabstop>
-  <tabstop>editBrowser</tabstop>
   <tabstop>editBoxUrl</tabstop>
  </tabstops>
  <resources/>

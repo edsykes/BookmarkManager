@@ -309,7 +309,7 @@ void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
     {
         qDebug() << "Launching IE";
         launchIEUrl(jsonDocument["url"].toString());
-    }
+     }
 }
 
 void MainWindow::launchChromeUrl(QString url)
