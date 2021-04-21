@@ -295,22 +295,24 @@ void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
     qDebug() << "version:" << jsonDocument["version"];
     qDebug() << "browser:" << jsonDocument["browser"];
 
-    if(jsonDocument["browser"] == "chrome")
+    for(QVector<QPair<QString, QString>>::iterator i = browsers.begin();
+        i < browsers.end();
+        i++)
     {
-        qDebug() << "Launching chrome";
-        launchChromeUrl(jsonDocument["url"].toString());
+        if(i->first == jsonDocument["browser"].toString())
+        {
+              launch(i->second, jsonDocument["url"].toString());
+        }
     }
-    else if(jsonDocument["browser"] == "brave")
-    {
-        qDebug() << "Launching brave";
-        launchBraveUrl(jsonDocument["url"].toString());
-    }
-    else if(jsonDocument["browser"] == "ie")
-    {
-        qDebug() << "Launching IE";
-        launchIEUrl(jsonDocument["url"].toString());
-     }
 }
+
+void MainWindow::launch(QString program, QString url)
+{
+    QStringList arguments;
+    arguments << url;
+    QProcess::startDetached(program, arguments);
+}
+
 
 void MainWindow::launchChromeUrl(QString url)
 {

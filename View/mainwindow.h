@@ -55,5 +55,6 @@ private:
     QVector<QPair<QString, QString>> browsers;
     void resizeIEWindow();
     void writeBrowsersToJson(QJsonObject& jsonObject);
+    void launch(QString program, QString url);
 };
 #endif // MAINWINDOW_H
