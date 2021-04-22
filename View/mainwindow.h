@@ -10,6 +10,7 @@ QT_BEGIN_NAMESPACE
 class QDir;
 class QFileInfo;
 class QFile;
+class QMutex;
 
 namespace Ui { class MainWindow;}
 QT_END_NAMESPACE
@@ -45,6 +46,9 @@ private slots:
     void on_pushIE_clicked();
 
 private:
+    static QFile* logfile;
+    static QMutex* mutex;
+
     void loadSettings();
     void launchChromeUrl(QString url);
     void launchBraveUrl(QString url);
@@ -55,7 +59,6 @@ private:
     QAction *popupAction;
     QDir* bookmarkDirectory;
     QVector<QPair<QString, QString>> browsers;
-    static QFile* logfile;
     void resizeIEWindow();
     void writeBrowsersToJson(QJsonObject& jsonObject);
     void launch(QString program, QString url);

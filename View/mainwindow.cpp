@@ -22,8 +22,10 @@
 #include <QNetworkAccessManager>
 #include <QStandardPaths>
 #include <QJsonArray>
+#include <QMutexLocker>
 
 QFile* MainWindow::logfile = new QFile(QDir::tempPath() + "/bookmarkmanager.log");
+QMutex* MainWindow::mutex = new QMutex();
 
 QRect MainWindow::GetCurrentScreenGeometry()
 {
@@ -66,7 +68,7 @@ void MainWindow::myMessageOutput(QtMsgType type, const QMessageLogContext &conte
         fileOutput += QString("%1: Fatal: %2\n").arg(QDateTime::currentDateTime().toString(Qt::ISODate)).arg(msg);
         abort();
     }
-
+    QMutexLocker locker(mutex);
     logfile->write(fileOutput.toUtf8());
     logfile->flush();
 }
@@ -89,9 +91,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    logfile->close();
-    delete logfile;
-
     delete ui;
 }
 
