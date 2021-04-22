@@ -23,6 +23,8 @@
 #include <QStandardPaths>
 #include <QJsonArray>
 
+QFile* MainWindow::logfile = new QFile(QDir::tempPath() + "/bookmarkmanager.log");
+
 QRect MainWindow::GetCurrentScreenGeometry()
 {
     int currentWidth = this->width();
@@ -38,10 +40,45 @@ QRect MainWindow::GetCurrentScreenGeometry()
     return currentScreenGeometry;
 }
 
+void MainWindow::myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    QString fileOutput("");
+    QByteArray localMsg = msg.toLocal8Bit();
+    switch (type) {
+    case QtDebugMsg:
+        fprintf(stderr, "Debug: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fileOutput += QString("%1: Debug: %2\n").arg(QDateTime::currentDateTime().toString(Qt::ISODate)).arg(msg);
+        break;
+    case QtInfoMsg:
+        fprintf(stderr, "Info: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fileOutput += QString("%1: Info: %2\n").arg(QDateTime::currentDateTime().toString(Qt::ISODate)).arg(msg);
+        break;
+    case QtWarningMsg:
+        fprintf(stderr, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fileOutput += QString("%1: Warning: %2\n").arg(QDateTime::currentDateTime().toString(Qt::ISODate)).arg(msg);
+        break;
+    case QtCriticalMsg:
+        fprintf(stderr, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fileOutput += QString("%1: Critical: %2\n").arg(QDateTime::currentDateTime().toString(Qt::ISODate)).arg(msg);
+        break;
+    case QtFatalMsg:
+        fprintf(stderr, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fileOutput += QString("%1: Fatal: %2\n").arg(QDateTime::currentDateTime().toString(Qt::ISODate)).arg(msg);
+        abort();
+    }
+
+    logfile->write(fileOutput.toUtf8());
+    logfile->flush();
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    logfile->open(QFile::WriteOnly|QFile::Append);
+
+    qInstallMessageHandler(myMessageOutput); // Install the handler
+
     ui->setupUi(this);
 
     popupAction = new QAction("pop up");
@@ -52,6 +89,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    logfile->close();
+    delete logfile;
+
     delete ui;
 }
 

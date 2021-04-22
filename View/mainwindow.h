@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 
 class QDir;
 class QFileInfo;
+class QFile;
 
 namespace Ui { class MainWindow;}
 QT_END_NAMESPACE
@@ -24,6 +25,7 @@ public:
     QFileInfo GetSelectedBookmark();
     QRect GetCurrentScreenGeometry();
     QPair<bool, QJsonDocument> readJson(QString filename);
+    static void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 protected:
 #ifndef QT_NO_CONTEXTMENU
@@ -53,8 +55,10 @@ private:
     QAction *popupAction;
     QDir* bookmarkDirectory;
     QVector<QPair<QString, QString>> browsers;
+    static QFile* logfile;
     void resizeIEWindow();
     void writeBrowsersToJson(QJsonObject& jsonObject);
     void launch(QString program, QString url);
 };
+
 #endif // MAINWINDOW_H
